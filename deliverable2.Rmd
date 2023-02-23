@@ -70,7 +70,10 @@ res.agnes= hcut(distanceMatrix,
 mydata$agn=as.factor(res.agnes$cluster)
 ```
 
+# Answering Q1. I do think the variables in my data file represent a latent concept. I chose my datasets based on environmental factors. Revenue from forest resources, revenue from coal, energy consumption, carbon dioxide emissions, and petroleum produced. The countries that were the highest on the hierarchical graph were China and the US. This makes sense in that both the US gain revenue from their land and use a lot of energy/produce a lot of emissions to boot. There is a steep drop off after those two countries, of which most of the data ended up being similar. It shows how many other countries have conflicting (or no relationship) between environmental revenue and energy production/emissions. 
+
 ```{r}
 saveRDS(mydata,file = 'deliverable2.RDS')
+```
 ```
 
