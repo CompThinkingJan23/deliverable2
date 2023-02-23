@@ -1,0 +1,76 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+rm(list = ls())
+link='https://github.com/CompThinkingJan23/deliverable1/raw/main/combinedset.csv'
+
+mydata=read.csv(link)
+
+row.names(mydata)=NULL
+```
+
+```{r}
+dataToCluster=mydata[,c(2:6)]
+row.names(dataToCluster)=mydata$Country
+```
+
+```{r}
+set.seed(999) 
+```
+
+```{r}
+library(cluster)
+distanceMatrix=daisy(x=dataToCluster, metric = "gower")
+```
+
+```{r}
+projectedData = cmdscale(distanceMatrix, k=2)
+```
+
+```{r}
+mydata$dim1 = projectedData[,1]
+mydata$dim2 = projectedData[,2]
+```
+
+```{r}
+mydata[,c('dim1','dim2')][1:10,]
+```
+
+```{r}
+hc=hclust(distanceMatrix)
+plot(hc, hang=-1,cex=0.5)
+```
+
+```{r}
+library(factoextra)
+```
+
+```{r}
+fviz_nbclust(dataToCluster, 
+             hcut,
+             diss=distanceMatrix,
+             method = "gap_stat",
+             k.max = 10,
+             verbose = F,
+             hc_func = "agnes")
+```
+
+```{r}
+res.agnes= hcut(distanceMatrix, 
+                k = 1,
+                isdiss=TRUE,
+                hc_func='agnes',
+                hc_method = "ward.D2")
+```
+
+```{r}
+mydata$agn=as.factor(res.agnes$cluster)
+```
+
+```{r}
+saveRDS(mydata,file = 'deliverable2.RDS')
+```
+
